@@ -19,6 +19,9 @@ function App() {
       setValidationMessage1('');
     } else {
       setValidationMessage1('Incorrect Value');
+      setTimeout(() => {
+        setValidationMessage1('');
+      }, 2000);
     }
   };
 
@@ -30,6 +33,9 @@ function App() {
       setValidationMessage2('');
     } else {
       setValidationMessage2('Incorrect Value');
+      setTimeout(() => {
+        setValidationMessage2('');
+      }, 2000);
     }
   };
 
@@ -70,6 +76,7 @@ function App() {
         <Button variant="contained" onClick={handleChartButtonClick} className="button">
           Create Chart
         </Button><br /><br />
+        
         {showChart && <PieChart data={chartData} className="chart" />}
       </Box>
     </div>
