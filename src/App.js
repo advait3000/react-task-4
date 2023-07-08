@@ -1,23 +1,77 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { PieChart } from 'react-minimal-pie-chart';
+import { TextField, Button, Typography, Box } from '@mui/material';
 import './App.css';
 
 function App() {
+  const [box1Value, setBox1Value] = useState('');
+  const [box2Value, setBox2Value] = useState('');
+  const [validationMessage1, setValidationMessage1] = useState('');
+  const [validationMessage2, setValidationMessage2] = useState('');
+  const [showChart, setShowChart] = useState(false);
+  const [chartData, setChartData] = useState([]);
+
+  const handleBox1Change = (e) => {
+    const value = e.target.value;
+    if (value <= 100) {
+      setBox1Value(value);
+      setBox2Value(100 - value);
+      setValidationMessage1('');
+    } else {
+      setValidationMessage1('Incorrect Value');
+    }
+  };
+
+  const handleBox2Change = (e) => {
+    const value = e.target.value;
+    if (value <= 100) {
+      setBox2Value(value);
+      setBox1Value(100 - value);
+      setValidationMessage2('');
+    } else {
+      setValidationMessage2('Incorrect Value');
+    }
+  };
+
+  const handleChartButtonClick = () => {
+    const newData = [
+      { title: 'Box 1', value: parseInt(box1Value), color: '#E38627' },
+      { title: 'Box 2', value: parseInt(box2Value), color: '#C13C37' },
+    ];
+    setChartData(newData);
+    setShowChart(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Box className="box">
+        <Typography variant="h5" component="div" className="title" gutterBottom>
+          Box 1:
+        </Typography>
+        <TextField
+          type="number"
+          value={box1Value}
+          onChange={handleBox1Change}
+          error={validationMessage1 !== ''}
+          helperText={validationMessage1}
+          className="text-field"
+        />
+        <Typography variant="h5" component="div" className="title" gutterBottom>
+          Box 2:
+        </Typography>
+        <TextField
+          type="number"
+          value={box2Value}
+          onChange={handleBox2Change}
+          error={validationMessage2 !== ''}
+          helperText={validationMessage2}
+          className="text-field"
+        /><br /><br />
+        <Button variant="contained" onClick={handleChartButtonClick} className="button">
+          Create Chart
+        </Button><br /><br />
+        {showChart && <PieChart data={chartData} className="chart" />}
+      </Box>
     </div>
   );
 }
